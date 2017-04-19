@@ -19,7 +19,11 @@ namespace Larkyo.WebAPI.Controllers
 
         public IHttpActionResult Users()
         {
-            return Ok(_userService.GetApplicationUsers());
+            return Ok(_userService.GetApplicationUsers().Select(u => new
+            {
+                Id = u.Id,
+                UserName = u.UserName
+            }));
         }
     }
 }
