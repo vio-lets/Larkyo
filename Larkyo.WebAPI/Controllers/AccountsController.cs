@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Larkyo.Infrastructure.Services;
-using Larkyo.EF.Services;
 
 namespace Larkyo.WebAPI.Controllers
 {
@@ -13,14 +12,18 @@ namespace Larkyo.WebAPI.Controllers
     {
         private IUserService _userService;
 
-        public AccountsController()
+        public AccountsController(IUserService userService)
         {
-            _userService = new UserService();
+            _userService = userService;
         }
 
         public IHttpActionResult Users()
         {
-            return Ok(_userService.GetApplicationUsers());
+            return Ok(_userService.GetApplicationUsers().Select(u => new
+            {
+                Id = u.Id,
+                UserName = u.UserName
+            }));
         }
     }
 }
