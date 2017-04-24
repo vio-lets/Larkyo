@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Larkyo.Infrastructure.Services;
+using Larkyo.WebAPI.Models;
 
 namespace Larkyo.WebAPI.Controllers
 {
@@ -20,8 +21,17 @@ namespace Larkyo.WebAPI.Controllers
         [Authorize]
         public IHttpActionResult Users()
         {
-            return Ok(_userService.GetApplicationUsers().Select(u => new
+            return Ok(_userService.GetApplicationUsers().Select(u => new User
             {
+                Id = u.Id,
+                UserName = u.UserName
+            }));
+        }
+
+        [HttpGet]
+        public IHttpActionResult UsersNoToken()
+        {
+            return Ok(_userService.GetApplicationUsers().Select(u => new User{
                 Id = u.Id,
                 UserName = u.UserName
             }));

@@ -31,7 +31,7 @@ namespace Larkyo.WebAPI.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
 
-            var allowedOrigin = "*";
+            var allowedOrigin = "*";//TODO change allowedOrigin to http://localhost:3000 if client is working
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
