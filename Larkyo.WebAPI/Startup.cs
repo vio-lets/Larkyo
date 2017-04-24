@@ -6,6 +6,10 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Larkyo.WebAPI.Providers;
 using Larkyo.WebAPI.App_Start;
+using System.Configuration;
+using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.Jwt;
+using Microsoft.Owin.Security;
 
 [assembly: OwinStartup(typeof(Larkyo.WebAPI.Startup))]
 
@@ -18,6 +22,7 @@ namespace Larkyo.WebAPI
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
 
             ConfigureOAuthTokenGeneration(app);
+            ConfigureOAuthTokenConsumption(app);
 
             HttpConfiguration httpConfig = new HttpConfiguration();
 
@@ -43,6 +48,26 @@ namespace Larkyo.WebAPI
 
             // OAuth 2.0 Bearer Access Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
+        }
+
+        private void ConfigureOAuthTokenConsumption(IAppBuilder app)
+        {
+
+            var issuer = "http://localhost:31460";
+            string audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
+            byte[] audienceSecret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["as:AudienceSecret"]);
+
+            // Api controllers with an [Authorize] attribute will be validated with JWT
+            app.UseJwtBearerAuthentication(
+                new JwtBearerAuthenticationOptions
+                {
+                    AuthenticationMode = AuthenticationMode.Active,
+                    AllowedAudiences = new[] { audienceId },
+                    IssuerSecurityTokenProviders = new IIssuerSecurityTokenProvider[]
+                    {
+                        new SymmetricKeyIssuerSecurityTokenProvider(issuer, audienceSecret)
+                    }
+                });
         }
     }
 }
