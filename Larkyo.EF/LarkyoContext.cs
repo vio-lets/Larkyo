@@ -11,7 +11,7 @@ using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 
 namespace Larkyo.EF
 {
-    public class LarkyoContext : IdentityDbContext<ApplicationUser>
+    public class LarkyoContext : ApplicationDbContext
     {
         public LarkyoContext()
             :base("DefaultConnection", throwIfV1Schema: false)

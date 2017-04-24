@@ -17,6 +17,7 @@ namespace Larkyo.WebAPI.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         public IHttpActionResult Users()
         {
             return Ok(_userService.GetApplicationUsers().Select(u => new
