@@ -9,6 +9,7 @@ using Larkyo.WebAPI.Models;
 
 namespace Larkyo.WebAPI.Controllers
 {
+    [RoutePrefix("api/Accounts")]
     public class AccountsController : ApiController
     {
         private IUserService _userService;
@@ -19,6 +20,8 @@ namespace Larkyo.WebAPI.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        [Route("Users")]
         public IHttpActionResult Users()
         {
             return Ok(_userService.GetApplicationUsers().Select(u => new User
@@ -29,6 +32,8 @@ namespace Larkyo.WebAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        [Route("UsersNoToken")]
         public IHttpActionResult UsersNoToken()
         {
             return Ok(_userService.GetApplicationUsers().Select(u => new User{

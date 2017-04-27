@@ -7,9 +7,12 @@ using Microsoft.Owin.Security.OAuth;
 using Larkyo.WebAPI.Providers;
 using Larkyo.WebAPI.App_Start;
 using System.Configuration;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security;
+using Microsoft.Practices.Unity.WebApi;
 
 [assembly: OwinStartup(typeof(Larkyo.WebAPI.Startup))]
 
@@ -19,16 +22,23 @@ namespace Larkyo.WebAPI
     {
         public void Configuration(IAppBuilder app)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
+            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=
+            var httpConfig = new HttpConfiguration
+            {
+                DependencyResolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer())
+            };
+
+            //TODO: Needs tidying up
+            AreaRegistration.RegisterAllAreas();
+            WebApiConfig.Register(httpConfig);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            SwaggerConfig.Register(httpConfig);
+
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseWebApi(httpConfig);
 
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
-
-            HttpConfiguration httpConfig = new HttpConfiguration();
-
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
-            app.UseWebApi(httpConfig);
         }
 
         private void ConfigureOAuthTokenGeneration(IAppBuilder app)
