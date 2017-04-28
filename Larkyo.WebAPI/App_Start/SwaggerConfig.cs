@@ -18,7 +18,7 @@ namespace Larkyo.WebAPI
                         // resolve correctly. You can workaround this by providing your own code to determine the root URL.
                         //
                         //c.RootUrl(req => GetRootUrlFromAppConfig())
-                        c.RootUrl(r => "http://localhost:31460/larkyo/");
+                        c.RootUrl(r => "http://localhost:31460/");
                         
 
                         // If schemes are not explicitly provided in a Swagger 2.0 document, then the scheme used to access
