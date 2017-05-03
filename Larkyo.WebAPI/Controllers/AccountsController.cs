@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using Larkyo.Infrastructure.Services;
 using Larkyo.WebAPI.Models;
+
 
 namespace Larkyo.WebAPI.Controllers
 {
@@ -40,6 +43,25 @@ namespace Larkyo.WebAPI.Controllers
                 Id = u.Id,
                 UserName = u.UserName
             }));
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("User")]
+        public async Task<IHttpActionResult> GetUser(string id)
+        {
+            IUser<string> user = await _userService.GetUserById(id);
+
+            if(user != null)
+            {
+                return Ok(new
+                {
+                    Id = user.Id,
+                    UserName = user.UserName
+                });
+            }
+
+            return NotFound();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Larkyo.WebAPI.Providers
 
             IUserService userService = _container.Resolve<IUserService>();
 
-            IUser user = await userService.FindAsync(context.UserName, context.Password);
+            IUser<string> user = await userService.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {

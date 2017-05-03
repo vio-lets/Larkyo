@@ -10,8 +10,9 @@ namespace Larkyo.Infrastructure.Services
 {
     public interface IUserService
     {
-        IList<IUser> GetApplicationUsers();
-        Task<IUser> FindAsync(string userName, string password);
+        IList<IUser<string>> GetApplicationUsers();
+        Task<IUser<string>> FindAsync(string userName, string password);
+        Task<IUser<string>> GetUserById(string id);
         Task<ClaimsIdentity> GenerateUserIdentityAsync(string userName, string password, string authenticationType);
     }
 }
