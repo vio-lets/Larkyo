@@ -22,6 +22,10 @@ namespace Larkyo.WebAPI
     {
         public void Configuration(IAppBuilder app)
         {
+            // Its important to call configure Oauth in the OWIN pipeline
+            ConfigureOAuthTokenGeneration(app);
+            ConfigureOAuthTokenConsumption(app);
+
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=
             var httpConfig = new HttpConfiguration
             {
@@ -36,9 +40,6 @@ namespace Larkyo.WebAPI
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(httpConfig);
-
-            ConfigureOAuthTokenGeneration(app);
-            ConfigureOAuthTokenConsumption(app);
         }
 
         private void ConfigureOAuthTokenGeneration(IAppBuilder app)
