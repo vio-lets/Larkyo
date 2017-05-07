@@ -63,5 +63,28 @@ namespace Larkyo.EF.Services
             }
             return user;
         }
+
+        public async Task<IUser<string>> CreateUser(string userName, string password)
+        {
+
+            IUser<string> user = null;
+            using (LarkyoContext context = new LarkyoContext())
+            {
+                ApplicationUser newUser = new ApplicationUser()
+                {
+                    UserName = userName
+                };
+
+                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                IdentityResult result = await userManager.CreateAsync(newUser, password);
+
+                if(result.Succeeded)
+                {
+                    user = newUser;
+                }
+            }
+
+            return user;
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace Larkyo.WebAPI.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("User")]
+        [Route("User", Name="GetUserById")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
             IUser<string> user = await _userService.GetUserById(id);
@@ -62,6 +62,31 @@ namespace Larkyo.WebAPI.Controllers
             }
 
             return NotFound();
+        }
+
+        [AllowAnonymous]
+        [Route("User", Name ="CreateUser")]
+        public async Task<IHttpActionResult> Create(AccountRegistrationBindingModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IUser<string> newUser = await _userService.CreateUser(model.UserName, model.Password);
+            if(newUser == null || string.IsNullOrEmpty(newUser.Id))
+            {
+                return BadRequest("Error creating using.");
+            }
+
+
+            Uri location = new Uri(Url.Link("GetUserById", new { id = newUser.Id }));
+
+            return Created(location, new
+            {
+                Id = newUser.Id,
+                UserName = newUser.UserName
+            });
         }
     }
 }
