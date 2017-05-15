@@ -80,7 +80,7 @@ namespace Larkyo.WebAPI.Controllers
                 await _userService.CreateUser(model.UserName, model.Password);
                 if (newUser == null || string.IsNullOrEmpty(newUser.Id))
                 {
-                    return BadRequest("Error creating using.");
+                    return BadRequest("Error creating user.");
                 }
             }
             catch(AggregateException ex)
