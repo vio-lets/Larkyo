@@ -73,10 +73,28 @@ namespace Larkyo.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            IUser<string> newUser = await _userService.CreateUser(model.UserName, model.Password);
-            if(newUser == null || string.IsNullOrEmpty(newUser.Id))
+            IUser<string> newUser = null;
+
+            try
             {
-                return BadRequest("Error creating using.");
+                await _userService.CreateUser(model.UserName, model.Password);
+                if (newUser == null || string.IsNullOrEmpty(newUser.Id))
+                {
+                    return BadRequest("Error creating using.");
+                }
+            }
+            catch(AggregateException ex)
+            {
+                foreach(Exception e in ex.InnerExceptions)
+                {
+                    ModelState.AddModelError("", e);
+                    return BadRequest(ModelState);
+                }
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex);
+                return BadRequest(ModelState);
             }
 
 

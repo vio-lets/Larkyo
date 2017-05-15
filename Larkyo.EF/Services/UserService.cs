@@ -82,6 +82,19 @@ namespace Larkyo.EF.Services
                 {
                     user = newUser;
                 }
+                else
+                {
+                    if(result.Errors != null)
+                    {
+                        IList<Exception> innerExceptions = new List<Exception>();
+                        foreach (string errorMessage in result.Errors)
+                        {
+                            innerExceptions.Add(new Exception(errorMessage));
+                        }
+                        throw new AggregateException(innerExceptions);
+                    }
+                    throw new Exception("Unknown error.");
+                }
             }
 
             return user;
