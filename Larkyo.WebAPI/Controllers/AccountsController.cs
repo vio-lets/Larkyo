@@ -77,7 +77,7 @@ namespace Larkyo.WebAPI.Controllers
 
             try
             {
-                await _userService.CreateUser(model.UserName, model.Password);
+                newUser = await _userService.CreateUser(model.UserName, model.Password);
                 if (newUser == null || string.IsNullOrEmpty(newUser.Id))
                 {
                     return BadRequest("Error creating user.");
