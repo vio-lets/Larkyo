@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Larkyo.Infrastructure.Services;
-using Larkyo.EF.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Security.Claims;
+using Larkyo.Infrastructure.Services;
+using Larkyo.EF.Identity;
 
 namespace Larkyo.EF.Services
 {
@@ -17,21 +17,21 @@ namespace Larkyo.EF.Services
         {
         }
 
-        public IList<IUser> GetApplicationUsers()
+        public IList<IUser<string>> GetApplicationUsers()
         {
-            IList<IUser> users = null;
+            IList<IUser<string>> users = null;
             using (LarkyoContext context = new LarkyoContext())
             {
                 ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
-                users = userManager.Users.ToList<IUser>();
+                users = userManager.Users.ToList<IUser<string>>();
             }
 
             return users;
         }
 
-        public async Task<IUser> FindAsync(string userName, string password)
+        public async Task<IUser<string>> FindAsync(string userName, string password)
         {
-            IUser user = null;
+            IUser<string> user = null;
 
             using (LarkyoContext context = new LarkyoContext())
             {
@@ -50,6 +50,54 @@ namespace Larkyo.EF.Services
 
                 return await userManager.CreateIdentityAsync(user, authenticationType);
             }
+        }
+
+        public async Task<IUser<string>> GetUserById(string id)
+        {
+            IUser<string> user = null;
+
+            using (LarkyoContext context = new LarkyoContext())
+            {
+                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                user = await userManager.FindByIdAsync(id);
+            }
+            return user;
+        }
+
+        public async Task<IUser<string>> CreateUser(string userName, string password)
+        {
+
+            IUser<string> user = null;
+            using (LarkyoContext context = new LarkyoContext())
+            {
+                ApplicationUser newUser = new ApplicationUser()
+                {
+                    UserName = userName
+                };
+
+                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                IdentityResult result = await userManager.CreateAsync(newUser, password);
+
+                if(result.Succeeded)
+                {
+                    user = newUser;
+                }
+                else
+                {
+                    if(result.Errors != null)
+                    {
+                        IList<Exception> innerExceptions = new List<Exception>();
+                        foreach (string errorMessage in result.Errors)
+                        {
+                            innerExceptions.Add(new Exception(errorMessage));
+                        }
+                        throw new AggregateException(innerExceptions);
+                    }
+                    throw new Exception("Unknown error.");
+                }
+            }
+
+            return user;
         }
     }
 }
