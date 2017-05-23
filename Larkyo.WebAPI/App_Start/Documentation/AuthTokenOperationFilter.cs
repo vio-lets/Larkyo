@@ -23,21 +23,24 @@ namespace Larkyo.WebAPI.Documentation
                             type = "string",
                             name = "grant_type",
                             required = true,
-                            @in = "formData"
+                            @in = "formData",
+                            @default = "password"
                         },
                         new Parameter
                         {
                             type = "string",
                             name = "username",
-                            required = false,
-                            @in = "formData"
+                            required = true,
+                            @in = "formData",
+                            @default = "admin"
                         },
                         new Parameter
                         {
                             type = "string",
                             name = "password",
-                            required = false,
-                            @in = "formData"
+                            required = true,
+                            @in = "formData",
+                            @default = "Larkyo.123"
                         }
                     }
                 }
