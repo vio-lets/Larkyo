@@ -34,17 +34,6 @@ namespace Larkyo.WebAPI.Controllers
             }));
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("UsersNoToken")]
-        public IHttpActionResult UsersNoToken()
-        {
-            return Ok(_userService.GetApplicationUsers().Select(u => new User{
-                Id = u.Id,
-                UserName = u.UserName
-            }));
-        }
-
         [Authorize]
         [HttpGet]
         [Route("User", Name="GetUserById")]
