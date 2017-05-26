@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Larkyo.Core\Larkyo.Core.csproj">
+      <Project>{1e7fde8d-c7e6-4eb6-b04e-c59663bc98c2}</Project>
+      <Name>Larkyo.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Larkyo.Infrastructure\Larkyo.Infrastructure.csproj">
       <Project>{5699815a-256c-4067-a69c-80e2ade73d06}</Project>
       <Name>Larkyo.Infrastructure</Name>
