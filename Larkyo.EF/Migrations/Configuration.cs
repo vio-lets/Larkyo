@@ -3,8 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Larkyo.EF;
+using Larkyo.Domain;
 using Larkyo.EF.Identity;
 
 namespace Larkyo.EF.Migrations
@@ -34,9 +33,9 @@ namespace Larkyo.EF.Migrations
             //    );
             //
 
-            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
 
-            ApplicationUser user = new Identity.ApplicationUser()
+            IdentityUser user = new IdentityUser()
             {
                 UserName = "admin",
                 Email = "violet@larkyo.com",
