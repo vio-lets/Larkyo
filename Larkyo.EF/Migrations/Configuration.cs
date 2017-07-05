@@ -33,9 +33,9 @@ namespace Larkyo.EF.Migrations
             //    );
             //
 
-            UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            IdentityUser user = new IdentityUser()
+            ApplicationUser user = new ApplicationUser()
             {
                 UserName = "admin",
                 Email = "violet@larkyo.com",

@@ -22,7 +22,7 @@ namespace Larkyo.EF.Services
             IList<IUser<string>> users = null;
             using (LarkyoContext context = new LarkyoContext())
             {
-                UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 users = userManager.Users.ToList<IUser<string>>();
             }
 
@@ -35,7 +35,7 @@ namespace Larkyo.EF.Services
 
             using (LarkyoContext context = new LarkyoContext())
             {
-                UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 user = await userManager.FindAsync(userName, password);
             }
             return user;
@@ -45,8 +45,8 @@ namespace Larkyo.EF.Services
         {
             using (LarkyoContext context = new LarkyoContext())
             {
-                UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
-                IdentityUser user = await userManager.FindAsync(userName, password);
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                ApplicationUser user = await userManager.FindAsync(userName, password);
 
                 return await userManager.CreateIdentityAsync(user, authenticationType);
             }
@@ -58,7 +58,7 @@ namespace Larkyo.EF.Services
 
             using (LarkyoContext context = new LarkyoContext())
             {
-                UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 user = await userManager.FindByIdAsync(id);
             }
             return user;
@@ -70,12 +70,12 @@ namespace Larkyo.EF.Services
             IUser<string> user = null;
             using (LarkyoContext context = new LarkyoContext())
             {
-                IdentityUser newUser = new IdentityUser()
+                ApplicationUser newUser = new ApplicationUser()
                 {
                     UserName = userName
                 };
 
-                UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 IdentityResult result = await userManager.CreateAsync(newUser, password);
 
                 if(result.Succeeded)
