@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using Larkyo.Domain;
 using Larkyo.EF.Identity;
+using Larkyo.Infrastructure.Domain;
 
 namespace Larkyo.EF.Migrations
 {
@@ -32,17 +33,51 @@ namespace Larkyo.EF.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
+            
             UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            ApplicationUser user = new ApplicationUser()
+            ApplicationUser admin = new ApplicationUser()
             {
                 UserName = "admin",
                 Email = "violet@larkyo.com",
                 EmailConfirmed = true
             };
 
-            userManager.Create(user, "Larkyo.123");
+            IdentityResult result = userManager.Create(admin, "Larkyo.123");
+            
+            UserProfile adminUserProfile = new UserProfile()
+            {
+                Name = "Administrator",
+                Gender = Gender.NOT_APPLICABLE
+            };
+
+            if (result.Succeeded)
+            {
+                admin.UserProfile = adminUserProfile;
+                context.Entry(admin).State = EntityState.Modified;
+            }
+            else
+            {
+                admin = context.Users.SingleOrDefault(u => u.UserName == "admin");
+                if(admin != null)
+                {
+                    admin.UserProfile = adminUserProfile;
+                }
+            }
+
+            foreach (ApplicationUser user in context.Users)
+            {
+                if(user.UserProfile == null)
+                {
+                    user.UserProfile = new UserProfile()
+                    {
+                        Name = user.UserName,
+                        Gender = Gender.UNKNOWN
+                    };
+                }
+            }
+
+            context.SaveChanges();
         }
     }
 }
