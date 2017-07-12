@@ -61,9 +61,15 @@
     <Compile Include="Identity\TaskExtensions.cs" />
     <Compile Include="Identity\UserStore.cs" />
     <Compile Include="LarkyoContext.cs" />
+    <Compile Include="Mappings\ApplicationUserMapping.cs" />
+    <Compile Include="Mappings\UserProfileMapping.cs" />
     <Compile Include="Migrations\201704121216307_InitialCreate.cs" />
     <Compile Include="Migrations\201704121216307_InitialCreate.Designer.cs">
       <DependentUpon>201704121216307_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707051047474_AddUserProfile.cs" />
+    <Compile Include="Migrations\201707051047474_AddUserProfile.Designer.cs">
+      <DependentUpon>201707051047474_AddUserProfile.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704121216307_InitialCreate.resx">
       <DependentUpon>201704121216307_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707051047474_AddUserProfile.resx">
+      <DependentUpon>201707051047474_AddUserProfile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
