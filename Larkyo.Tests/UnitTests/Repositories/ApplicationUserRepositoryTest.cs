@@ -53,6 +53,18 @@ namespace Larkyo.Tests.UnitTests.Repositories
             Assert.AreEqual(4, result.Count());
         }
 
+        [TestCase]
+        public void TestPagination()
+        {
+            IRepository<ApplicationUser> repository = new ApplicationUserRepository();
+            IQueryConfiguration<ApplicationUser> queryConfig = repository.CreateQueryConfiguration();
+            queryConfig.SortBy(u => u.UserName).Page(1, 2);
+            IQueryResult<ApplicationUser> queryResult = repository.Find(queryConfig);
+
+            Assert.AreEqual(2, queryResult.Items.Count());
+            Assert.AreEqual(4, queryResult.TotalCount);
+        }
+
         [OneTimeTearDown]
         public void Cleanup()
         {
