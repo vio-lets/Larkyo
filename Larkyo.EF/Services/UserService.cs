@@ -64,7 +64,7 @@ namespace Larkyo.EF.Services
             return user;
         }
 
-        public async Task<IUser<string>> CreateUser(string userName, string password)
+        public async Task<IUser<string>> CreateUserAsync(string userName, string password)
         {
 
             IUser<string> user = null;
@@ -77,7 +77,7 @@ namespace Larkyo.EF.Services
 
                 UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 IdentityResult result = await userManager.CreateAsync(newUser, password);
-
+                
                 if(result.Succeeded)
                 {
                     user = newUser;
@@ -85,6 +85,42 @@ namespace Larkyo.EF.Services
                 else
                 {
                     if(result.Errors != null)
+                    {
+                        IList<Exception> innerExceptions = new List<Exception>();
+                        foreach (string errorMessage in result.Errors)
+                        {
+                            innerExceptions.Add(new Exception(errorMessage));
+                        }
+                        throw new AggregateException(innerExceptions);
+                    }
+                    throw new Exception("Unknown error.");
+                }
+            }
+
+            return user;
+        }
+
+        public IUser<string> CreateUser(string userName, string password)
+        {
+
+            IUser<string> user = null;
+            using (LarkyoContext context = new LarkyoContext())
+            {
+                ApplicationUser newUser = new ApplicationUser()
+                {
+                    UserName = userName
+                };
+
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                IdentityResult result = userManager.Create(newUser, password);
+
+                if (result.Succeeded)
+                {
+                    user = newUser;
+                }
+                else
+                {
+                    if (result.Errors != null)
                     {
                         IList<Exception> innerExceptions = new List<Exception>();
                         foreach (string errorMessage in result.Errors)

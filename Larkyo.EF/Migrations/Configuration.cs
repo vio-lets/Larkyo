@@ -36,36 +36,39 @@ namespace Larkyo.EF.Migrations
             
             UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            ApplicationUser admin = new ApplicationUser()
+            if(context.Users.SingleOrDefault(u => u.UserName == "admin") == null)
             {
-                UserName = "admin",
-                Email = "violet@larkyo.com",
-                EmailConfirmed = true
-            };
+                ApplicationUser admin = new ApplicationUser()
+                {
+                    UserName = "admin",
+                    Email = "violet@larkyo.com",
+                    EmailConfirmed = true
+                };
 
-            IdentityResult result = userManager.Create(admin, "Larkyo.123");
-            
-            UserProfile adminUserProfile = new UserProfile()
-            {
-                Name = "Administrator",
-                Gender = Gender.NOT_APPLICABLE
-            };
+                IdentityResult result = userManager.Create(admin, "Larkyo.123");
 
-            if (result.Succeeded)
-            {
-                admin.UserProfile = adminUserProfile;
-                context.Entry(admin).State = EntityState.Modified;
-            }
-            else
-            {
-                admin = context.Users.SingleOrDefault(u => u.UserName == "admin");
-                if(admin != null)
+                UserProfile adminUserProfile = new UserProfile()
+                {
+                    Name = "Administrator",
+                    Gender = Gender.NOT_APPLICABLE
+                };
+
+                if (result.Succeeded)
                 {
                     admin.UserProfile = adminUserProfile;
+                    context.Entry(admin).State = EntityState.Modified;
+                }
+                else
+                {
+                    admin = context.Users.SingleOrDefault(u => u.UserName == "admin");
+                    if (admin != null)
+                    {
+                        admin.UserProfile = adminUserProfile;
+                    }
                 }
             }
 
-            foreach (ApplicationUser user in context.Users)
+            foreach (ApplicationUser user in context.Users.Include(u => u.UserProfile))
             {
                 if(user.UserProfile == null)
                 {

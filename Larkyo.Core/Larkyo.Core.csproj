@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\PropertyExpression.cs" />
+    <Compile Include="Data\QueryConfiguration.cs" />
+    <Compile Include="Data\QueryResult.cs" />
+    <Compile Include="Data\SortExpression.cs" />
     <Compile Include="Domain\IdentityRole.cs" />
     <Compile Include="Domain\IdentityUser.cs" />
     <Compile Include="Domain\IdentityUserClaim.cs" />
