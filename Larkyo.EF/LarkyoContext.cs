@@ -16,6 +16,7 @@ namespace Larkyo.EF
     public class LarkyoContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<DestinationDomain> Destinations { get; set; }
 
         public LarkyoContext()
             :base("DefaultConnection")
@@ -29,6 +30,7 @@ namespace Larkyo.EF
 
             modelBuilder.Configurations.Add(new ApplicationUserMapping());
             modelBuilder.Configurations.Add(new UserProfileMapping());
+            modelBuilder.Configurations.Add(new DestinationMapping()); 
         }
     }
 }
