@@ -17,5 +17,9 @@ namespace Larkyo.Infrastructure.Repositories
         T SingleOrDefault(Expression<Func<T, bool>> expression);
         T FindSingle(IQueryConfiguration<T> queryConfiguration);
         IQueryResult<T> Find(IQueryConfiguration<T> queryConfiguration);
+
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
 }
