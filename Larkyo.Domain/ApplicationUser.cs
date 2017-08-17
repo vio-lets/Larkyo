@@ -7,8 +7,9 @@ using Larkyo.Infrastructure.Domain;
 
 namespace Larkyo.Domain
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IApplicationUser
     {
         public UserProfile UserProfile { get; set; }
+
     }
 }
