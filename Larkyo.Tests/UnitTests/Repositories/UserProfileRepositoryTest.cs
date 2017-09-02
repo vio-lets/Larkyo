@@ -72,6 +72,35 @@ namespace Larkyo.Tests.UnitTests.Repositories
         }
 
         [TestCase]
+        public void TestUpdate()
+        {
+            IRepository<ApplicationUser> userRepository = new ApplicationUserRepository();
+            ApplicationUser testUser = userRepository.SingleOrDefault(u => u.UserName == "test");
+
+            IRepository<UserProfile> userProfileRepository = new UserProfileRepository();
+            UserProfile userProfile = new UserProfile()
+            {
+                Gender = Gender.MALE,
+                Name = "Test User",
+                User = testUser
+            };
+
+            userProfileRepository.Add(userProfile);
+
+            Assert.AreEqual(testUser.Id, userProfile.Id);
+
+            userProfile = userProfileRepository.SingleOrDefault(up => up.Id == testUser.Id);
+
+            userProfile.Name = "Changed";
+
+            userProfileRepository.Update(userProfile);
+
+            userProfile = userProfileRepository.SingleOrDefault(up => up.Id == testUser.Id);
+
+            Assert.AreEqual("Changed", userProfile.Name);
+        }
+
+        [TestCase]
         public void TestDelete()
         {
             IRepository<ApplicationUser> userRepository = new ApplicationUserRepository();
