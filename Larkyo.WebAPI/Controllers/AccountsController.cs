@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using Larkyo.Domain;
 using Larkyo.Infrastructure.Services;
 using Larkyo.WebAPI.Models;
 
@@ -29,17 +30,6 @@ namespace Larkyo.WebAPI.Controllers
         {
             return Ok(_userService.GetApplicationUsers().Select(u => new User
             {
-                Id = u.Id,
-                UserName = u.UserName
-            }));
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("UsersNoToken")]
-        public IHttpActionResult UsersNoToken()
-        {
-            return Ok(_userService.GetApplicationUsers().Select(u => new User{
                 Id = u.Id,
                 UserName = u.UserName
             }));
@@ -77,7 +67,7 @@ namespace Larkyo.WebAPI.Controllers
 
             try
             {
-                newUser = await _userService.CreateUser(model.UserName, model.Password);
+                newUser = await _userService.CreateUserAsync(model.UserName, model.Password);
                 if (newUser == null || string.IsNullOrEmpty(newUser.Id))
                 {
                     return BadRequest("Error creating user.");

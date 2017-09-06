@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Larkyo.Domain;
 using Larkyo.Infrastructure.Services;
 using Larkyo.EF.Identity;
 
@@ -22,7 +22,7 @@ namespace Larkyo.EF.Services
             IList<IUser<string>> users = null;
             using (LarkyoContext context = new LarkyoContext())
             {
-                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 users = userManager.Users.ToList<IUser<string>>();
             }
 
@@ -35,7 +35,7 @@ namespace Larkyo.EF.Services
 
             using (LarkyoContext context = new LarkyoContext())
             {
-                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 user = await userManager.FindAsync(userName, password);
             }
             return user;
@@ -45,7 +45,7 @@ namespace Larkyo.EF.Services
         {
             using (LarkyoContext context = new LarkyoContext())
             {
-                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 ApplicationUser user = await userManager.FindAsync(userName, password);
 
                 return await userManager.CreateIdentityAsync(user, authenticationType);
@@ -58,13 +58,13 @@ namespace Larkyo.EF.Services
 
             using (LarkyoContext context = new LarkyoContext())
             {
-                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 user = await userManager.FindByIdAsync(id);
             }
             return user;
         }
 
-        public async Task<IUser<string>> CreateUser(string userName, string password)
+        public async Task<IUser<string>> CreateUserAsync(string userName, string password)
         {
 
             IUser<string> user = null;
@@ -75,9 +75,9 @@ namespace Larkyo.EF.Services
                     UserName = userName
                 };
 
-                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 IdentityResult result = await userManager.CreateAsync(newUser, password);
-
+                
                 if(result.Succeeded)
                 {
                     user = newUser;
@@ -85,6 +85,42 @@ namespace Larkyo.EF.Services
                 else
                 {
                     if(result.Errors != null)
+                    {
+                        IList<Exception> innerExceptions = new List<Exception>();
+                        foreach (string errorMessage in result.Errors)
+                        {
+                            innerExceptions.Add(new Exception(errorMessage));
+                        }
+                        throw new AggregateException(innerExceptions);
+                    }
+                    throw new Exception("Unknown error.");
+                }
+            }
+
+            return user;
+        }
+
+        public IUser<string> CreateUser(string userName, string password)
+        {
+
+            IUser<string> user = null;
+            using (LarkyoContext context = new LarkyoContext())
+            {
+                ApplicationUser newUser = new ApplicationUser()
+                {
+                    UserName = userName
+                };
+
+                UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                IdentityResult result = userManager.Create(newUser, password);
+
+                if (result.Succeeded)
+                {
+                    user = newUser;
+                }
+                else
+                {
+                    if (result.Errors != null)
                     {
                         IList<Exception> innerExceptions = new List<Exception>();
                         foreach (string errorMessage in result.Errors)
