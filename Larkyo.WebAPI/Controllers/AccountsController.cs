@@ -17,10 +17,12 @@ namespace Larkyo.WebAPI.Controllers
     public class AccountsController : ApiController
     {
         private IUserService _userService;
+        private IApplicationUserService<ApplicationUser> _applicationUserService;
 
-        public AccountsController(IUserService userService)
+        public AccountsController(IUserService userService, IApplicationUserService<ApplicationUser> applicationUserService)
         {
             _userService = userService;
+            _applicationUserService = applicationUserService;
         }
 
         [Authorize]
@@ -67,7 +69,7 @@ namespace Larkyo.WebAPI.Controllers
 
             try
             {
-                newUser = await _userService.CreateUserAsync(model.UserName, model.Password);
+                newUser = await _applicationUserService.CreateUserAsync(model.UserName, model.Password);
                 if (newUser == null || string.IsNullOrEmpty(newUser.Id))
                 {
                     return BadRequest("Error creating user.");

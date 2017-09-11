@@ -83,6 +83,7 @@
     <Compile Include="Repositories\EfEntityRepository.cs" />
     <Compile Include="Repositories\UserProfileRepository.cs" />
     <Compile Include="Services\ActivityService.cs" />
+    <Compile Include="Services\ApplicationUserService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

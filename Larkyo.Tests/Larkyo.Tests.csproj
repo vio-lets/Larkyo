@@ -52,6 +52,7 @@
     <Compile Include="UnitTests\Repositories\UserProfileRepositoryTest.cs" />
     <Compile Include="UnitTests\Repositories\DestinationRepositoryTest.cs" />
     <Compile Include="UnitTests\Services\ActivityServiceTest.cs" />
+    <Compile Include="UnitTests\Services\ApplicationUserServiceTest.cs" />
     <Compile Include="UnitTests\Services\UserServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
