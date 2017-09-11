@@ -45,10 +45,10 @@ namespace Larkyo.Tests.UnitTests.Services
         }
 
         [TestCase]
-        public void TestCreateUser()
+        public async Task TestCreateUser()
         {
             ApplicationUserService service = new ApplicationUserService();
-            ApplicationUser user = service.CreateUser("test", "test123");
+            ApplicationUser user = await service.CreateUserAsync("test", "test123");
 
             Assert.IsNotNull(user);
             Assert.IsNotNull(user.UserProfile);

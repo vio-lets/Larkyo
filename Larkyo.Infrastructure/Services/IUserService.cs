@@ -13,7 +13,6 @@ namespace Larkyo.Infrastructure.Services
         IList<IUser<string>> GetApplicationUsers();
         Task<IUser<string>> FindAsync(string userName, string password);
         Task<IUser<string>> GetUserById(string id);
-        IUser<string> CreateUser(string userName, string password);
         Task<IUser<string>> CreateUserAsync(string userName, string password);
         Task<ClaimsIdentity> GenerateUserIdentityAsync(string userName, string password, string authenticationType);
         

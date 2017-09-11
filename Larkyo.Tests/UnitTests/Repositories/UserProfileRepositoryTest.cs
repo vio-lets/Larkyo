@@ -23,13 +23,13 @@ namespace Larkyo.Tests.UnitTests.Repositories
         private string _connectionString;
 
         [SetUp]
-        public void TestCaseInit()
+        public async Task TestCaseInit()
         {
             ConnectionStringSettings css = ConfigurationManager.ConnectionStrings["DefaultConnection"];
             _connectionString = css.ConnectionString;
 
             IUserService userService = new UserService();
-            IUser<string> result = userService.CreateUser("test", "test123");
+            IUser<string> result = await userService.CreateUserAsync("test", "test123");
         }
 
         [TearDown]

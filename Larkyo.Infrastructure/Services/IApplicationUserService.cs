@@ -12,7 +12,6 @@ namespace Larkyo.Infrastructure.Services
     public interface IApplicationUserService<TUser>
         where TUser : IUser<string>
     {
-        TUser CreateUser(string userName, string password);
         Task<TUser> CreateUserAsync(string userName, string password);
     }
 }
