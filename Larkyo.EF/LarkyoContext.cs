@@ -10,12 +10,15 @@ using Larkyo.EF.Mappings;
 using Larkyo.EF.Migrations;
 using Larkyo.Infrastructure.Domain;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+using Larkyo.Core.Domain;
 
 namespace Larkyo.EF
 {
     public class LarkyoContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Trip> Trips { get; set; }
 
         public LarkyoContext()
             :base("DefaultConnection")
@@ -29,6 +32,20 @@ namespace Larkyo.EF
 
             modelBuilder.Configurations.Add(new ApplicationUserMapping());
             modelBuilder.Configurations.Add(new UserProfileMapping());
+
+            /*
+            modelBuilder.Entity<Team>()
+                .HasMany<TeamRequirement>(x => x.Requires)
+                .WithRequired(x=> x.Team);
+
+            modelBuilder.Entity<Team>()
+               .HasMany<Trip>(x => x.Trips)
+               .WithRequired(x => x.AssociatedTeam);
+               */
+            modelBuilder.Entity<Trip>()
+                .HasOptional<Team>(x => x.AssociatedTeam)
+                .WithOptionalPrincipal(x=>x.Trip);
+               
         }
     }
 }
