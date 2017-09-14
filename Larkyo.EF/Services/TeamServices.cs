@@ -30,7 +30,7 @@ namespace Larkyo.EF.Services
                 MaxUser = teamModel.maxUsers,
                 JoinedConfirm = teamModel.joinedConfirm,
                 Description = teamModel.description
-                
+
             };
 
 
@@ -39,7 +39,7 @@ namespace Larkyo.EF.Services
 
 
             return Guid.NewGuid();
-            
+
         }
 
     }

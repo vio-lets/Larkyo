@@ -10,6 +10,7 @@ using Larkyo.EF.Mappings;
 using Larkyo.EF.Migrations;
 using Larkyo.Infrastructure.Domain;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+using Larkyo.Core.Domain;
 
 namespace Larkyo.EF
 {
