@@ -17,8 +17,12 @@ namespace Larkyo.EF
     public class LarkyoContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
+<<<<<<< HEAD
         public DbSet<Team> Teams { get; set; }
         public DbSet<Trip> Trips { get; set; }
+=======
+        public DbSet<DestinationDomain> Destinations { get; set; }
+>>>>>>> 082964bf52d590d2d2d79cb6e43b0b0b04bff9c5
 
         public LarkyoContext()
             :base("DefaultConnection")
@@ -32,6 +36,7 @@ namespace Larkyo.EF
 
             modelBuilder.Configurations.Add(new ApplicationUserMapping());
             modelBuilder.Configurations.Add(new UserProfileMapping());
+<<<<<<< HEAD
 
             /*
             modelBuilder.Entity<Team>()
@@ -46,6 +51,9 @@ namespace Larkyo.EF
                 .HasOptional<Team>(x => x.AssociatedTeam)
                 .WithOptionalPrincipal(x=>x.Trip);
                
+=======
+            modelBuilder.Configurations.Add(new DestinationMapping()); 
+>>>>>>> 082964bf52d590d2d2d79cb6e43b0b0b04bff9c5
         }
     }
 }
