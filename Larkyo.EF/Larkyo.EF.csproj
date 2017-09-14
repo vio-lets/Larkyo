@@ -89,6 +89,7 @@
     <Compile Include="Repositories\DestinationRepository.cs" />
     <Compile Include="Repositories\ApplicationUserRepository.cs" />
     <Compile Include="Repositories\EfEntityRepository.cs" />
+    <Compile Include="Repositories\TeamRepository.cs" />
     <Compile Include="Repositories\UserProfileRepository.cs" />
     <Compile Include="Services\ApplicationUserService.cs" />
     <Compile Include="Services\TeamServices.cs" />
@@ -131,5 +132,6 @@
       <DependentUpon>201709140848367_AddedTeams.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
