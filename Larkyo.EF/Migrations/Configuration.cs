@@ -33,7 +33,16 @@ namespace Larkyo.EF.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            
+
+            //---seed Destination table
+            context.Destinations.AddOrUpdate(
+                d => d.Name,
+                new DestinationDomain { Id = Guid.NewGuid().ToString(), Name = "Auckland", Country = "New Zealand", Region = "North Island", Latitude = -36.850933, Longitude = 174.764491 },
+                new DestinationDomain { Id = Guid.NewGuid().ToString(), Name = "Rotorua", Country = "New Zealand", Region = "North Island", Latitude = -38.135376, Longitude = 176.253787 },
+                new DestinationDomain { Id = Guid.NewGuid().ToString(), Name = "Wellington", Country = "New Zealand", Region = "South Island", Latitude = -41.286453, Longitude = 174.776238 },
+                new DestinationDomain { Id = Guid.NewGuid().ToString(), Name = "Hamilton", Country = "New Zealand", Region = "North Island", Latitude = -37.787221, Longitude = 175.283010 }
+                );
+
             UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
             if(context.Users.SingleOrDefault(u => u.UserName == "admin") == null)
