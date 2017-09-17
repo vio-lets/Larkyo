@@ -16,12 +16,17 @@ namespace Larkyo.EF
     public class LarkyoContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Trip> Trips { get; set; }
         public DbSet<DestinationDomain> Destinations { get; set; }
 
+        //public static LarkyoContext Create() {
+        //    return new LarkyoContext();
+        //}
         public LarkyoContext()
-            :base("DefaultConnection")
+            : base("DefaultConnection")
         {
-            Database.SetInitializer( new MigrateDatabaseToLatestVersion<LarkyoContext, Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<LarkyoContext, Configuration>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -30,7 +35,22 @@ namespace Larkyo.EF
 
             modelBuilder.Configurations.Add(new ApplicationUserMapping());
             modelBuilder.Configurations.Add(new UserProfileMapping());
-            modelBuilder.Configurations.Add(new DestinationMapping()); 
+
+            /*
+            modelBuilder.Entity<Team>()
+                .HasMany<TeamRequirement>(x => x.Requires)
+                .WithRequired(x=> x.Team);
+
+            modelBuilder.Entity<Team>()
+               .HasMany<Trip>(x => x.Trips)
+               .WithRequired(x => x.AssociatedTeam);
+               */
+            modelBuilder.Entity<Trip>()
+                .HasOptional<Team>(x => x.AssociatedTeam)
+                .WithRequired(x => x.Trip);
+
+
+            modelBuilder.Configurations.Add(new DestinationMapping());
         }
     }
 }
