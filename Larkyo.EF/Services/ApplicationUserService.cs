@@ -16,7 +16,12 @@ namespace Larkyo.EF.Services
 {
     class ApplicationUserService : IApplicationUserService<ApplicationUser>
     {
-        private LarkyoContext _dbContext = new LarkyoContext();
+        private LarkyoContext _dbContext;
+        public ApplicationUserService()
+        {
+            _dbContext = new LarkyoContext();
+        }
+        
 
         public ApplicationUser CreateUser(string userName, string password)
         {

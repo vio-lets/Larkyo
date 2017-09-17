@@ -21,7 +21,8 @@ namespace Larkyo.Domain
         public int Duration { get; set; }
         public int Views { get; set; }
         public decimal EstimateCost { get; set; }
-    
+
+        
         public Larkyo.Domain.Team AssociatedTeam { get; set; }    
         // ?Store a group of image Ids
        // public ICollection<string> ImageIds { get; set; }

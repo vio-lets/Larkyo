@@ -7,13 +7,13 @@ namespace Larkyo.EF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddTeam1 : IMigrationMetadata
+    public sealed partial class AddedTeams : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTeam1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedTeams));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709140337137_AddTeam1"; }
+            get { return "201709140848367_AddedTeams"; }
         }
         
         string IMigrationMetadata.Source

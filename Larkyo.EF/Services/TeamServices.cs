@@ -5,18 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Larkyo.Domain;
 using Larkyo.Infrastructure.Domain;
+using Larkyo.EF.Repositories;
+using Larkyo.Infrastructure.Repositories;
+using Larkyo.Infrastructure.Dto;
 
 namespace Larkyo.EF.Services
 {
     public class TeamServices
     {
-        
 
-        public Guid CreateTeam(string PromoterId, string Title,Boolean JoinedConfirm=false,int MaxUser=26, String Tags="",string Descriptions="")
+        IRepository<Team> _teamRepository;
+
+        public TeamServices(IRepository<Team> teamRepository)
         {
+            _teamRepository = teamRepository;
+        }
+
+        public Guid CreateTeam(CreateTeamModel teamModel)
+        {
+            Team newTeam = new Team()
+            {
+                Title = teamModel.title,
+                Tags = teamModel.tags,
+                MaxUser = teamModel.maxUsers,
+                JoinedConfirm = teamModel.joinedConfirm,
+                Description = teamModel.description
+                
+            };
+
+
+            _teamRepository.Add(newTeam);
+
+
 
             return Guid.NewGuid();
-
             
         }
 
