@@ -20,6 +20,36 @@ namespace Larkyo.EF.Repositories
             return new QueryConfiguration<T>();
         }
 
+        public virtual void Add(T entity)
+        {
+            using (TContext context = new TContext())
+            {
+                context.Set<T>().Add(entity);
+                context.SaveChanges();
+            }
+        }
+
+        public virtual void Update(T entity)
+        {
+            using (TContext context = new TContext())
+            {
+                context.Set<T>().Attach(entity);
+                context.Entry(entity).State = EntityState.Modified;
+
+                context.SaveChanges();
+            }
+        }
+
+        public virtual void Delete(T entity)
+        {
+            using (TContext context = new TContext())
+            {
+                context.Set<T>().Attach(entity);
+                context.Set<T>().Remove(entity);
+                context.SaveChanges();
+            }
+        }
+
         public IEnumerable<T> FindAll()
         {
             using (TContext context = new TContext())
