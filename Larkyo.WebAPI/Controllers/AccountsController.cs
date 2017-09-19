@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Larkyo.Domain;
+using Larkyo.Infrastructure.Domain;
 using Larkyo.Infrastructure.Services;
 using Larkyo.WebAPI.Models;
 
@@ -17,10 +18,12 @@ namespace Larkyo.WebAPI.Controllers
     public class AccountsController : ApiController
     {
         private IUserService _userService;
+        private IApplicationUserService<ApplicationUser> _applicationUserService;
 
-        public AccountsController(IUserService userService)
+        public AccountsController(IUserService userService, IApplicationUserService<ApplicationUser> applicationUserService)
         {
             _userService = userService;
+            _applicationUserService = applicationUserService;
         }
 
         [Authorize]
@@ -56,18 +59,18 @@ namespace Larkyo.WebAPI.Controllers
 
         [AllowAnonymous]
         [Route("User", Name ="CreateUser")]
-        public async Task<IHttpActionResult> Create(AccountRegistrationBindingModel model)
+        public IHttpActionResult Create(AccountRegistrationBindingModel model)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IUser<string> newUser = null;
-
+            //IUser<string> newUser = null;
+            IApplicationUser newUser = null;
             try
             {
-                newUser = await _userService.CreateUserAsync(model.UserName, model.Password);
+                newUser = _applicationUserService.CreateUser(model.UserName, model.Password);
                 if (newUser == null || string.IsNullOrEmpty(newUser.Id))
                 {
                     return BadRequest("Error creating user.");
