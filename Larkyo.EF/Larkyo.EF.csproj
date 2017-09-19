@@ -87,18 +87,11 @@
     <Compile Include="Repositories\ApplicationUserRepository.cs" />
     <Compile Include="Repositories\EfEntityRepository.cs" />
     <Compile Include="Repositories\TeamRepository.cs" />
+    <Compile Include="Repositories\TripRepository.cs" />
     <Compile Include="Repositories\UserProfileRepository.cs" />
-<<<<<<< HEAD
     <Compile Include="Services\ApplicationUserService.cs" />
     <Compile Include="Services\TeamServices.cs" />
     <Compile Include="Services\ActivityService.cs" />
-=======
-<<<<<<< HEAD
-    <Compile Include="Services\ApplicationUserService.cs" />
-=======
-    <Compile Include="Services\ActivityService.cs" />
->>>>>>> 260db79ba95bd98c31a5ad1d932f84016598791f
->>>>>>> LeonBaseAPI
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
