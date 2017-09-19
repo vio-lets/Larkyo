@@ -8,20 +8,21 @@ using Larkyo.Infrastructure.Domain;
 using Larkyo.EF.Repositories;
 using Larkyo.Infrastructure.Repositories;
 using Larkyo.Infrastructure.Dto;
+using System.Data.Entity.Infrastructure;
 
 namespace Larkyo.EF.Services
 {
     public class TeamServices
     {
 
-        IRepository<Team> _teamRepository;
+        TeamRepository _teamRepository;
 
-        public TeamServices(IRepository<Team> teamRepository)
+        public TeamServices(TeamRepository teamRepository)
         {
             _teamRepository = teamRepository;
         }
 
-        public Guid CreateTeam(CreateTeamModel teamModel)
+        public void CreateTeam(CreateTeamModel teamModel)
         {
             Team newTeam = new Team()
             {
@@ -33,14 +34,14 @@ namespace Larkyo.EF.Services
 
             };
 
-
-            _teamRepository.Add(newTeam);
-
-
-
-            return Guid.NewGuid();
+            if(_teamRepository.AddNewTeam(newTeam).Result<=0)
+            {
+                throw new DbUpdateException("Add new team failed");
+            }
 
         }
+
+
 
     }
 }
