@@ -31,7 +31,7 @@ namespace Larkyo.WebAPI.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public void Post([FromBody]UserProfile userProfile)
         {
             throw new NotImplementedException();
         }
