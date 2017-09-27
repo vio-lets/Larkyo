@@ -16,9 +16,9 @@ namespace Larkyo.WebAPI.Controllers
     [Authorize]
     public class UserProfileController : ApiController
     {
-        private IRepository<UserProfile> _userProfileRepository;
+        private IUserProfileRepository<UserProfile> _userProfileRepository;
 
-        public UserProfileController(IRepository<UserProfile> userProfileRepository)
+        public UserProfileController(IUserProfileRepository<UserProfile> userProfileRepository)
         {
             _userProfileRepository = userProfileRepository;
         }
@@ -31,9 +31,9 @@ namespace Larkyo.WebAPI.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public void Post([FromBody]UserProfile userProfile)
         {
-            throw new NotImplementedException();
+            _userProfileRepository.UpdateWithoutRelatedEntities(userProfile);
         }
 
         // PUT api/<controller>/5
