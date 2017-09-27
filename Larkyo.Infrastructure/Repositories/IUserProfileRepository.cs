@@ -9,6 +9,7 @@ namespace Larkyo.Infrastructure.Repositories
     public interface IUserProfileRepository<TUserProfile> : IRepository<TUserProfile>
         where TUserProfile : class
     {
+        TUserProfile Get(string id);
         void UpdateWithoutRelatedEntities(TUserProfile userProfile);
     }
 }
