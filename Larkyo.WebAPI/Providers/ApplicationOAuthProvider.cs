@@ -30,8 +30,8 @@ namespace Larkyo.WebAPI.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-//            var allowedOrigin = "*";//TODO change allowedOrigin to http://localhost:3000 if client is working
-//            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            var allowedOrigin = "http://localhost:8080";//TODO change allowedOrigin to http://localhost:8080 if client is working
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             IUserService userService = _container.Resolve<IUserService>();
 

@@ -25,13 +25,13 @@ namespace Larkyo.Tests.UnitTests.Repositories
     class ApplicationUserRepositoryTest
     {
         [OneTimeSetUp]
-        public void Init()
+        public async Task Init()
         {
             Debug.Print("Init Test");
             IUserService userService = new UserService();
-            IUser<string> result = userService.CreateUser("alfred", "test123");
-            IUser<string> user2 = userService.CreateUser("moana", "test123");
-            IUser<string> user3 = userService.CreateUser("wayne", "test123");
+            IUser<string> result = await userService.CreateUserAsync("alfred", "test123");
+            IUser<string> user2 = await userService.CreateUserAsync("moana", "test123");
+            IUser<string> user3 = await userService.CreateUserAsync("wayne", "test123");
             
         }
 
