@@ -47,7 +47,7 @@ namespace Larkyo.Tests.UnitTests.Repositories
         }
 
         [Test]
-        public void TestCreateTeam()
+        public void TestAddNewTeam()
         {
             Team newTeam = new Team
             {
@@ -67,11 +67,7 @@ namespace Larkyo.Tests.UnitTests.Repositories
         }
 
 
-        [Test]
-        public void TestFindTeamByID()
-        {
-
-        }
+ 
 
 
     }
