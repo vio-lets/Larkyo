@@ -22,7 +22,7 @@ namespace Larkyo.Domain
         public int Views { get; set; }
         public decimal EstimateCost { get; set; }
 
-        public Larkyo.Domain.Team AssociatedTeam { get; set; }
+        public Larkyo.Domain.Team Team { get; set; }
         // ?Store a group of image Ids
        // public ICollection<string> ImageIds { get; set; }
 

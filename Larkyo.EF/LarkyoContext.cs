@@ -47,7 +47,7 @@ namespace Larkyo.EF
                .WithRequired(x => x.AssociatedTeam);
                */
             modelBuilder.Entity<Trip>()
-                .HasOptional<Team>(x => x.AssociatedTeam)
+                .HasOptional<Team>(x => x.Team)
                 .WithRequired(x => x.Trip);
 
 
